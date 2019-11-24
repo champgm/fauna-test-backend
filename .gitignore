@@ -1,0 +1,6 @@
+.vscode/
+tsc-out/
+coverage
+node_modules/
+.npm
+.configuration.ts

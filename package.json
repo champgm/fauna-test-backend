@@ -1,0 +1,43 @@
+{
+  "name": "fauna-test-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "coverage": "jest --coverage",
+    "lint:fix": "tslint 'src/**/*.ts' 'spec/**/*.ts' --fix",
+    "lint": "tslint 'src/**/*.ts' 'spec/**/*.ts'",
+    "test": "npm run lint && jest",
+    "update": "npm update && npm audit fix && npm outdated",
+    "start:local": "ts-node src/local.ts"
+  },
+  "author": "",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "aws-serverless-express": "^3.3.6",
+    "body-parser": "^1.19.0",
+    "bunyan": "^1.8.12",
+    "express": "^4.17.1",
+    "express-serve-static-core": "^0.1.1",
+    "lodash": "^4.17.15",
+    "path": "^0.12.7",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/bunyan": "^1.8.6",
+    "@types/jest": "^24.0.23",
+    "@types/lodash": "^4.14.149",
+    "@types/node": "^12.12.12",
+    "@types/supertest": "^2.0.8",
+    "@types/supertest-as-promised": "^2.0.38",
+    "jest": "^24.0.0",
+    "supertest": "^4.0.2",
+    "supertest-as-promised": "^4.0.2",
+    "ts-jest": "^23.10.5",
+    "ts-node": "^8.4.1",
+    "tslint": "^5.20.0",
+    "tslint-config-airbnb": "^5.11.2",
+    "typescript": "^3.6.4"
+  }
+}
