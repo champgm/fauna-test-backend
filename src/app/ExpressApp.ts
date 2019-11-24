@@ -73,7 +73,7 @@ export function createExpressApp(): core.Express {
   });
 
   // It might be a little confusing, but this creates a function which is passed into the handler above
-  // The handler above will instantiate the handler class before calling this method. 
+  // The handler above will instantiate the handler class before calling this method.
   router.post('/orders', asyncHandler(async (request) => {
     return orderHandler.handle(request);
   }));
