@@ -12,6 +12,9 @@ import { Configuration } from '../common/Configuration';
 import { enumerateError } from '../common/ObjectUtil';
 import { getConfiguration } from '../common';
 import { OrderHandler } from '../handler/OrderHandler';
+import { StorageUtil } from '../storage/StorageUtil';
+import { FaunaStorageUtil } from '../storage/fauna/FaunaStorageUtil';
+import { CustomerHandler } from '../handler/CustomerHandler';
 
 const BASE_PATH = '/fauna-test-backend';
 
@@ -19,6 +22,8 @@ const BASE_PATH = '/fauna-test-backend';
 // if using parameter store or other outside services, this can be costly
 let configuration: Configuration;
 let orderHandler: OrderHandler;
+let customerHandler: CustomerHandler;
+let storageUtil: StorageUtil;
 
 // This is a wrapper for all route handlers
 // We need to take special care to handle asynchronous errors. Lambda has a tendency to eat them
@@ -35,9 +40,9 @@ export function asyncHandler(
       // Configure/instantiate dependencies
       if (!configuration) {
         configuration = await getConfiguration();
-      }
-      if (!orderHandler) {
-        orderHandler = new OrderHandler(configuration, logger);
+        storageUtil = new FaunaStorageUtil(configuration, logger);
+        orderHandler = new OrderHandler(configuration, storageUtil, logger);
+        customerHandler = new CustomerHandler(configuration, storageUtil, logger);
       }
 
       // Execute given handler
@@ -74,8 +79,12 @@ export function createExpressApp(): core.Express {
 
   // It might be a little confusing, but this creates a function which is passed into the handler above
   // The handler above will instantiate the handler class before calling this method.
-  router.post('/orders', asyncHandler(async (request) => {
+  router.get('/orders', asyncHandler(async (request) => {
     return orderHandler.handle(request);
+  }));
+
+  router.get('/customers', asyncHandler(async (request) => {
+    return customerHandler.handle(request);
   }));
 
   expressApp.use(BASE_PATH, router);

@@ -20,6 +20,7 @@
     "bunyan": "^1.8.12",
     "express": "^4.17.1",
     "express-serve-static-core": "^0.1.1",
+    "faunadb": "^2.9.4",
     "lodash": "^4.17.15",
     "path": "^0.12.7",
     "uuid": "^3.3.3"

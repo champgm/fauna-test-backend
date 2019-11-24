@@ -8,7 +8,7 @@ import { BaseResponse } from '../response/BaseResponse';
 import { StorageUtil } from '../storage/StorageUtil';
 import { SuccessResponse } from '../response/SuccessResponse';
 
-export class OrderHandler extends RequestHandler {
+export class CustomerHandler extends RequestHandler {
   logger: bunyan;
 
   constructor(
@@ -21,7 +21,7 @@ export class OrderHandler extends RequestHandler {
   }
 
   public async handle(request: express.Request): Promise<BaseResponse<any>> {
-    const orders = await this.storageHandler.getOrders();
+    const orders = await this.storageHandler.getCustomers();
     return new SuccessResponse('Successfully retrieved orders', orders);
   }
 }
