@@ -3,7 +3,7 @@ import { Address } from './Address';
 import { CreditCard } from './CreditCard';
 import { Product } from './Product';
 
-export class ProductState {
+export class Line {
   product: Product;
   quantity: number;
   price: number;
@@ -11,7 +11,7 @@ export class ProductState {
 
 export class Order {
   customer: Customer;
-  line: ProductState[];
+  line: Line[];
   status: string;
   creationDate: string;
   shipAddress: Address;
