@@ -46,7 +46,6 @@ export class FaunaStorageUtil extends StorageUtil {
       const customerPromise = this.client.query(query.Get(orderData.data.customer));
       const linePromises = orderData.data.line.map(async (lineData) => {
         const productResult: any = await this.client.query(query.Get(lineData.product));
-        console.log(`productResult${JSON.stringify(productResult, null, 2)}`);
         return {
           product: productResult.data,
           quantity: lineData.quantity,
@@ -54,7 +53,7 @@ export class FaunaStorageUtil extends StorageUtil {
         } as Line;
       });
       return {
-        customer: await customerPromise,
+        customer: ((await customerPromise) as any).data,
         line: await Promise.all(linePromises),
         status: orderData.data.status,
         creationDate: orderData.data.creationDate['@ts'],

@@ -8,13 +8,14 @@ export interface LineSummary {
 }
 
 export interface OrderSummary {
-  lines: LineSummary[];
-  totalPrice: number;
   address: Address;
   customerName: string;
+  lines: LineSummary[];
+  status: string;
+  totalPrice: number;
 }
 
-export class OrderResponse extends BaseResponse<OrderSummary[]> {
+export class OrderSummaryResponse extends BaseResponse<OrderSummary[]> {
   public constructor(message: string, payload: OrderSummary[]) {
     super(200, message, payload);
   }

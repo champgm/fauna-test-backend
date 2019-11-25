@@ -15,6 +15,7 @@ import { OrderHandler } from '../handler/OrderHandler';
 import { StorageUtil } from '../storage/StorageUtil';
 import { FaunaStorageUtil } from '../storage/fauna/FaunaStorageUtil';
 import { CustomerHandler } from '../handler/CustomerHandler';
+import { OrderSummaryHandler } from '../handler/OrderSummaryHandler';
 
 const BASE_PATH = '/fauna-test-backend';
 
@@ -23,6 +24,7 @@ const BASE_PATH = '/fauna-test-backend';
 let configuration: Configuration;
 let orderHandler: OrderHandler;
 let customerHandler: CustomerHandler;
+let orderSummaryHandler: OrderSummaryHandler;
 let storageUtil: StorageUtil;
 
 // This is a wrapper for all route handlers
@@ -43,6 +45,7 @@ export function asyncHandler(
         storageUtil = new FaunaStorageUtil(configuration, logger);
         orderHandler = new OrderHandler(configuration, storageUtil, logger);
         customerHandler = new CustomerHandler(configuration, storageUtil, logger);
+        orderSummaryHandler = new OrderSummaryHandler(configuration, storageUtil, logger);
       }
 
       // Execute given handler
@@ -85,6 +88,10 @@ export function createExpressApp(): core.Express {
 
   router.get('/customers', asyncHandler(async (request) => {
     return customerHandler.handle(request);
+  }));
+
+  router.get('/order-summary', asyncHandler(async (request) => {
+    return orderSummaryHandler.handle(request);
   }));
 
   expressApp.use(BASE_PATH, router);
