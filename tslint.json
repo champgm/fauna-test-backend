@@ -30,7 +30,8 @@
       "statements",
       "members",
       "elements"
-    ]
+    ],
+    "no-parameter-reassignment": false
   },
   "rulesDirectory": []
 }

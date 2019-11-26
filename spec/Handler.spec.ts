@@ -16,12 +16,7 @@ describe('index', () => {
     callback = jest.fn();
   });
   describe('handler', () => {
-    it('should detect SNS payloads and not proxy', async () => {
-      handler(event, {}, callback);
-      expect(awsServerlessExpress.proxy).not.toHaveBeenCalled();
-      expect(callback).toHaveBeenCalledWith(null, 'SNS event detected, will abort.');
-    });
-    it('should detect non-SNS payloads and proxy', async () => {
+    it('should proxy to awsServerlessExpress', async () => {
       event.Records[0].EventSource = 'not sns';
       handler(event, {}, callback);
       expect(awsServerlessExpress.proxy).toHaveBeenCalled();
