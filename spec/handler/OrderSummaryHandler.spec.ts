@@ -80,4 +80,26 @@ describe('OrderSummaryHandler', () => {
       expect(handler.mapOrderToOrderSummary).toHaveBeenCalledWith(order, 0, [order]);
     });
   });
+  describe('mapOrderToOrderSummary', () => {
+    it('should map orders to orderSummaries', async () => {
+      const orderSummary: OrderSummary = handler.mapOrderToOrderSummary(order);
+      expect(orderSummary).toEqual({
+        customerName: 'firstName lastName',
+        status: 'status',
+        totalPrice: 10,
+        address: {
+          city: 'city',
+          state: 'state',
+          street: 'street',
+          zipCode: 'zipCode',
+        },
+        lines: [{
+          description: 'description',
+          name: 'name',
+          subtotal: 10,
+        }],
+      },
+      );
+    });
+  });
 });

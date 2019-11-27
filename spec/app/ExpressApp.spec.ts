@@ -1,9 +1,7 @@
 import 'jest';
 import supertestAsPromised from 'supertest-as-promised';
-import express from 'express';
 
 import { asyncHandler, createExpressApp } from '../../src/app/ExpressApp';
-import { Configuration } from '../../src/common/Configuration';
 
 const orderResponse = { code: 200, message: 'joined room' };
 const orders = jest.fn(() => orderResponse);
@@ -12,7 +10,6 @@ const customers = jest.fn(() => customerResponse);
 const orderSummaryResponse = { code: 200, message: 'joined room' };
 const orderSummary = jest.fn(() => orderSummaryResponse);
 
-// jest.mock('../../src/util/Configuration');
 jest.mock('../../src/handler/CustomerHandler', () => {
   return {
     CustomerHandler: jest.fn(() => {

@@ -6,6 +6,7 @@ import express from 'express';
 import * as core from 'express-serve-static-core';
 import path from 'path';
 import bunyan from 'bunyan';
+import faunadb from 'faunadb';
 
 import { BaseResponse } from '../response/BaseResponse';
 import { Configuration } from '../common/Configuration';
@@ -22,6 +23,7 @@ const BASE_PATH = '/fauna-test-backend';
 // Retrieve configuration and create handlers once per lambda startup (vs once per execution)
 // if using parameter store or other outside services, this can be costly
 let configuration: Configuration;
+let faunaDbClient: faunadb.Client;
 let orderHandler: OrderHandler;
 let customerHandler: CustomerHandler;
 let orderSummaryHandler: OrderSummaryHandler;
@@ -42,7 +44,8 @@ export function asyncHandler(
       // Configure/instantiate dependencies
       if (!configuration) {
         configuration = await getConfiguration();
-        storageUtil = new FaunaStorageUtil(configuration, logger);
+        faunaDbClient = new faunadb.Client({ secret: configuration.faunaAccessKey });
+        storageUtil = new FaunaStorageUtil(configuration, faunaDbClient, logger);
         orderHandler = new OrderHandler(configuration, storageUtil, logger);
         customerHandler = new CustomerHandler(configuration, storageUtil, logger);
         orderSummaryHandler = new OrderSummaryHandler(configuration, storageUtil, logger);

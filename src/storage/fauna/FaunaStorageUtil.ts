@@ -10,13 +10,15 @@ import { CustomerQueryResult } from './CustomerQueryResult';
 import { OrderQueryResult } from './OrderQueryResult';
 
 export class FaunaStorageUtil extends StorageUtil {
-  client: faunadb.Client;
   logger: bunyan;
 
-  constructor(protected configuration: Configuration, incomingLogger: bunyan) {
+  constructor(
+    protected configuration: Configuration,
+    private client:faunadb.Client,
+    incomingLogger: bunyan,
+  ) {
     super(configuration, incomingLogger);
     this.logger = incomingLogger.child({ file: path.basename(__filename) });
-    this.client = new faunadb.Client({ secret: configuration.faunaAccessKey });
   }
 
   public async getOrders(): Promise<any> {

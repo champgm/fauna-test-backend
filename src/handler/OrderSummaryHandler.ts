@@ -38,7 +38,6 @@ export class OrderSummaryHandler extends RequestHandler {
     const totalPrice = lines.reduce((price: number, lineSummary: LineSummary) => {
       return price + lineSummary.subtotal;
     }, 0);
-    console.log(`order${JSON.stringify(order, null, 2)}`);
     return {
       lines,
       totalPrice,
