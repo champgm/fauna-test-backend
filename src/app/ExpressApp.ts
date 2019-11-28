@@ -18,7 +18,8 @@ import { FaunaStorageUtil } from '../storage/fauna/FaunaStorageUtil';
 import { CustomerHandler } from '../handler/CustomerHandler';
 import { OrderSummaryHandler } from '../handler/OrderSummaryHandler';
 
-const BASE_PATH = '/fauna-test-backend';
+const FRONT_END_DIRECTORY = path.join(__dirname, '../../build');
+// const BASE_PATH = '/fauna-test-backend';
 
 // Retrieve configuration and create handlers once per lambda startup (vs once per execution)
 // if using parameter store or other outside services, this can be costly
@@ -74,8 +75,10 @@ export function createExpressApp(): core.Express {
   const router = express.Router();
   router.use(bodyParser.json());
   router.use(bodyParser.urlencoded({ extended: true }));
-
   router.use(middleware.eventContext());
+
+  // Serve the frontend
+  router.use('/', express.static(FRONT_END_DIRECTORY));
 
   // This is for testing, canary deployments, heartbeat stuff, etc
   router.get('/status', (request, response) => {
@@ -97,6 +100,6 @@ export function createExpressApp(): core.Express {
     return orderSummaryHandler.handle(request);
   }));
 
-  expressApp.use(BASE_PATH, router);
+  expressApp.use(router);
   return expressApp;
 }
