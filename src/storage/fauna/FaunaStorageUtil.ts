@@ -33,13 +33,15 @@ export class FaunaStorageUtil extends StorageUtil {
   }
 
   public async getCustomers(): Promise<Customer[]> {
-    const results: CustomerQueryResult = this.client
+    const results: CustomerQueryResult = await this.client
       .query(
         query.Map(
           query.Paginate(query.Match(query.Index('all_customers'))),
           query.Lambda('X', query.Get(query.Var('X'))),
         ),
-      ) as any;
+    ) as any;
+    console.log(`this.client${JSON.stringify(this.client, null, 2)}`);
+    console.log(`results${JSON.stringify(results, null, 2)}`);
     return results.data.map(customerDatum => customerDatum.data);
   }
 
