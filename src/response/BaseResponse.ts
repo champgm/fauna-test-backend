@@ -3,7 +3,7 @@ export class BaseResponse<T> {
   public message: string;
   public payload?: T;
 
-  public constructor(code: number, message: string, payload: T = undefined) {
+  public constructor(code: number, message: string, payload: T) {
     this.code = code;
     this.message = message;
     this.payload = payload;
