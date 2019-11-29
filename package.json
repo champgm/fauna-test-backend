@@ -6,12 +6,13 @@
   "scripts": {
     "build": "tsc",
     "coverage": "jest --coverage",
-    "lint:fix": "tslint 'src/**/*.ts' 'spec/**/*.ts' --fix",
+    "lint-fix": "tslint 'src/**/*.ts' 'spec/**/*.ts' --fix",
     "lint": "tslint 'src/**/*.ts' 'spec/**/*.ts'",
     "test": "npm run lint && jest",
     "update": "npm update && npm audit fix && npm outdated",
     "zip": "rm lambda.zip || true && zip -grq1dd lambda.zip node_modules && zip -gqr1dd lambda.zip tsc-out && zip -gqr1dd lambda.zip build",
-    "start": "ts-node src/local.ts"
+    "start": "ts-node src/local.ts",
+    "start-transpiled": "npm run build && node tsc-out/src/local.js"
   },
   "author": "",
   "license": "GPL-3.0-or-later",
