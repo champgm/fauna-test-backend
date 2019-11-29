@@ -91,7 +91,7 @@ describe('express_app', () => {
   describe('router', () => {
     it('properly routes GET /orders requests', async () => {
       const response = await testApp
-        .get('/fauna-test-backend/orders')
+        .get('/fauna-test/orders')
         .set('x-apigateway-event', '{}')
         .set('x-apigateway-context', '{}')
         .toPromise();
@@ -101,7 +101,7 @@ describe('express_app', () => {
     });
     it('properly routes GET /customers requests', async () => {
       const response = await testApp
-        .get('/fauna-test-backend/customers')
+        .get('/fauna-test/customers')
         .set('x-apigateway-event', '{}')
         .set('x-apigateway-context', '{}')
         .toPromise();
@@ -111,7 +111,7 @@ describe('express_app', () => {
     });
     it('properly routes GET /orderSummary requests', async () => {
       const response = await testApp
-        .get('/fauna-test-backend/order-summary')
+        .get('/fauna-test/order-summary')
         .set('x-apigateway-event', '{}')
         .set('x-apigateway-context', '{}')
         .toPromise();
@@ -121,7 +121,7 @@ describe('express_app', () => {
     });
     it('properly routes GET /status requests', async () => {
       const response = await testApp
-        .get('/fauna-test-backend/status')
+        .get('/fauna-test/status')
         .set('x-apigateway-event', '{}')
         .set('x-apigateway-context', '{}')
         .toPromise();

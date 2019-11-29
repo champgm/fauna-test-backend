@@ -3,10 +3,11 @@
 import middleware from 'aws-serverless-express/middleware';
 import bodyParser from 'body-parser';
 import express from 'express';
-import * as core from 'express-serve-static-core';
+// import * as core from 'express-serve-static-core';
 import path from 'path';
 import bunyan from 'bunyan';
 import faunadb from 'faunadb';
+import fs from 'fs';
 
 import { BaseResponse } from '../response/BaseResponse';
 import { Configuration } from '../common/Configuration';
@@ -18,8 +19,7 @@ import { FaunaStorageUtil } from '../storage/fauna/FaunaStorageUtil';
 import { CustomerHandler } from '../handler/CustomerHandler';
 import { OrderSummaryHandler } from '../handler/OrderSummaryHandler';
 
-const FRONT_END_DIRECTORY = path.join(__dirname, '../../build');
-// const BASE_PATH = '/fauna-test-backend';
+const BASE_PATH = '/fauna-test';
 
 // Retrieve configuration and create handlers once per lambda startup (vs once per execution)
 // if using parameter store or other outside services, this can be costly
@@ -67,7 +67,7 @@ export function asyncHandler(
   };
 }
 
-export function createExpressApp(): core.Express {
+export function createExpressApp(): express.Express {
   const expressApp = express();
   // expressApp.use(cors);
 
@@ -77,14 +77,14 @@ export function createExpressApp(): core.Express {
   router.use(bodyParser.urlencoded({ extended: true }));
   router.use(middleware.eventContext());
 
-  // Serve the frontend
-  router.use('/', express.static(FRONT_END_DIRECTORY));
-
   // This is for testing, canary deployments, heartbeat stuff, etc
   router.get('/status', (request, response) => {
     const ok = { status: 'ok' };
     response.status(200).json(ok);
   });
+
+  // Serve React's build folder as static content
+  router.use('/', express.static(path.join(__dirname, '../../../build')));
 
   // It might be a little confusing, but this creates a function which is passed into the handler above
   // The handler above will instantiate the handler class before calling this method.
@@ -100,6 +100,7 @@ export function createExpressApp(): core.Express {
     return orderSummaryHandler.handle(request);
   }));
 
-  expressApp.use(router);
+  // expressApp.use(BASE_PATH, express.static(FRONT_END_DIRECTORY));
+  expressApp.use(BASE_PATH, router);
   return expressApp;
 }
